@@ -39,7 +39,7 @@ func (pc *pokemonController) GetPokemon(w http.ResponseWriter, req *http.Request
 		message := fmt.Sprintf("could not fetch all pokemon: %v", err)
 		log.Println(message)
 		fmt.Fprint(w, message)
-		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	data, err := json.Marshal(p)
 	if err != nil {
