@@ -33,6 +33,7 @@ func parsePokemon(r [][]string) ([]model.Pokemon, error) {
 }
 
 func parseRecord(p *model.Pokemon) []string {
+	// TODO: create inverse of unmarshallRecord
 	species := strings.Join([]string{
 		p.Species.Name,
 		strconv.FormatInt(int64(p.Species.GenderRate), 10),
