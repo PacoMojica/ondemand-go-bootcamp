@@ -131,7 +131,7 @@ func (pc *pokemonController) CreatePokemon(w http.ResponseWriter, req *http.Requ
 		message := fmt.Sprintf("unable to unmarshall body: %v", err)
 		log.Println(message)
 		fmt.Fprint(w, message)
-		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	err = pc.interactor.Create(&p)
@@ -139,7 +139,7 @@ func (pc *pokemonController) CreatePokemon(w http.ResponseWriter, req *http.Requ
 		message := fmt.Sprintf("unable to save pokemon data: %v", err)
 		log.Println(message)
 		fmt.Fprint(w, message)
-		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	data, err := json.Marshal(p)
@@ -147,7 +147,7 @@ func (pc *pokemonController) CreatePokemon(w http.ResponseWriter, req *http.Requ
 		message := fmt.Sprintf("unable to marshall response: %v", err)
 		log.Println(message)
 		fmt.Fprint(w, message)
-		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	w.Header().Add("Content-Type", "application/json")
