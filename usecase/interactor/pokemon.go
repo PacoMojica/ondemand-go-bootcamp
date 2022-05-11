@@ -2,7 +2,7 @@ package interactor
 
 import (
 	"go-bootcamp/domain/model"
-	"go-bootcamp/usecase/repository"
+	"go-bootcamp/interface/repository"
 )
 
 type pokemonInteractor struct {
@@ -15,7 +15,7 @@ type PokemonInteractor interface {
 	Create(p *model.Pokemon) error
 }
 
-func New(r repository.PokemonRepository) PokemonInteractor {
+func NewPokemonInteractor(r repository.PokemonRepository) PokemonInteractor {
 	return &pokemonInteractor{r}
 }
 

@@ -22,7 +22,7 @@ type PokemonController interface {
 	CreatePokemon(w http.ResponseWriter, req *http.Request)
 }
 
-func New(pi interactor.PokemonInteractor) PokemonController {
+func NewPokemonController(pi interactor.PokemonInteractor) PokemonController {
 	return &pokemonController{pi}
 }
 
