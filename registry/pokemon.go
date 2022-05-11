@@ -4,9 +4,10 @@ import (
 	"go-bootcamp/interface/controller"
 	"go-bootcamp/interface/repository"
 	"go-bootcamp/usecase/interactor"
+	ir "go-bootcamp/usecase/repository"
 )
 
-func (r *registry) NewPokemonRepository() repository.PokemonRepository {
+func (r *registry) NewPokemonRepository() ir.PokemonRepository {
 	return repository.NewPokemonRepository(r.db)
 }
 

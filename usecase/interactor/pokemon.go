@@ -2,7 +2,7 @@ package interactor
 
 import (
 	"go-bootcamp/domain/model"
-	"go-bootcamp/interface/repository"
+	"go-bootcamp/usecase/repository"
 )
 
 type pokemonInteractor struct {

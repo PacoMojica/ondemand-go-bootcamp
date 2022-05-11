@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-bootcamp/domain/model"
 	"go-bootcamp/infrastructure/database"
+	"go-bootcamp/usecase/repository"
 	"strconv"
 	"strings"
 )
@@ -12,13 +13,7 @@ type pokemonRepository struct {
 	db database.DB
 }
 
-type PokemonRepository interface {
-	FindAll() ([]model.Pokemon, error)
-	FindById(uint) (model.Pokemon, error)
-	Create(*model.Pokemon) (*model.Pokemon, error)
-}
-
-func NewPokemonRepository(db database.DB) PokemonRepository {
+func NewPokemonRepository(db database.DB) repository.PokemonRepository {
 	return &pokemonRepository{db}
 }
 
