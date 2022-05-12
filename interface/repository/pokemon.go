@@ -96,11 +96,11 @@ func (pr *pokemonRepository) FindById(ID uint) (p model.Pokemon, err error) {
 	return
 }
 
-func (pr *pokemonRepository) Create(p *model.Pokemon) (*model.Pokemon, error) {
+func (pr *pokemonRepository) Create(p *model.Pokemon) error {
 	r := parseRecord(p)
 	if err := pr.db.Write(r); err != nil {
-		return nil, err
+		return err
 	}
 
-	return p, nil
+	return nil
 }
