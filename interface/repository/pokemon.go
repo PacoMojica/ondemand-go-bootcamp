@@ -64,7 +64,11 @@ func (pr *pokemonRepository) FindById(ID uint) (p model.Pokemon, err error) {
 
 func (pr *pokemonRepository) Create(p *model.Pokemon) error {
 	record := []string{}
-	marshall(p, &record)
+	err := marshall(p, &record)
+	if err != nil {
+		return err
+	}
+
 	if err := pr.db.Write(record); err != nil {
 		return err
 	}
