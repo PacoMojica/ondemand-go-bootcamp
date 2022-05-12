@@ -18,7 +18,7 @@ type DB interface {
 }
 
 func New() DB {
-	return &database{path: config.Config.Database.File}
+	return &database{path: config.App.Database.Path}
 }
 
 func (db *database) Read() ([][]string, error) {

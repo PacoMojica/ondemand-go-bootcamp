@@ -61,9 +61,16 @@ func (pi *pokemonInteractor) Create(r io.Reader) ([]byte, error) {
 		return nil, err
 	}
 
-	err = pi.PokemonRepository.Create(&p)
+	found, err := pi.PokemonRepository.FindById(p.ID)
 	if err != nil {
 		return nil, err
+	}
+
+	if found.ID != p.ID {
+		err = pi.PokemonRepository.Create(&p)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	data, err := pi.PokemonPresenter.Marshall(p)

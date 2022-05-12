@@ -1,8 +1,7 @@
 package model
 
-type Ability struct {
-	Name     string `json:"name"`
-	IsHidden bool   `json:"is_hidden"`
+type Sprites struct {
+	FrontDefault string `json:"front_default"`
 }
 
 type Species struct {
@@ -14,15 +13,37 @@ type Species struct {
 	Habitat     string `json:"habitad"`
 }
 
+type Ability struct {
+	Ability struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"ability"`
+	IsHidden bool `json:"is_hidden"`
+}
+
+type Move struct {
+	Move struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"move"`
+}
+
+type Type struct {
+	Type struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"type"`
+}
+
 type Pokemon struct {
 	ID             uint      `json:"id"`
 	Name           string    `json:"name"`
-	Image          string    `json:"image"`
+	Sprites        Sprites   `json:"sprites"`
 	Weight         uint      `json:"weight"`
 	Height         uint      `json:"height"`
 	BaseExperience uint      `json:"base_experience"`
 	Species        Species   `json:"species"`
 	Abilities      []Ability `json:"abilities"`
-	Moves          []string  `json:"moves"`
-	Types          []string  `json:"types"`
+	Moves          []Move    `json:"moves"`
+	Types          []Type    `json:"types"`
 }

@@ -11,9 +11,10 @@ import (
 func main() {
 	config.Read()
 	db := database.New()
-	r := registry.New(db)
-	c := r.NewAppController()
-	server, address := router.Init(c)
+	re := registry.New(db)
+	c := re.NewAppController()
+	ro := router.New(c)
+	server, address := ro.Init()
 
 	log.Printf("running server at %v", address)
 	if err := server.ListenAndServe(); err != nil {

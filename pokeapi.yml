@@ -1,0 +1,7 @@
+baseUrl: https://pokeapi.co/api/v2
+
+totalPokemon: 898
+
+endpoints:
+  pokemon: pokemon
+  species: pokemon-species

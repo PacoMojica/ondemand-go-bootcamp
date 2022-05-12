@@ -60,9 +60,9 @@ For the final deliverable, we will provide some feedback. If you are struggling 
 
 Based on the self-study material and mentorship covered until this deliverable, we suggest you perform the following:
 
-- Create an API
-- Add an endpoint to read from a CSV file
-- The CSV should have any information, for example:
+- [x] Create an API
+- [x] Add an endpoint to read from a CSV file
+- [x] The CSV should have any information, for example:
 
 ```txt
 1,bulbasaur
@@ -70,12 +70,12 @@ Based on the self-study material and mentorship covered until this deliverable, 
 3,venusaur
 ```
 
-- The items in the CSV must have an ID element (int value)
-- The endpoint should get information from the CSV by some field ***(example: ID)***
-- The result should be displayed as a response
-- Clean architecture proposal
-- Use best practices
-- Handle the Errors ***(CSV not valid, error connection, etc)***
+- [x] The items in the CSV must have an ID element (int value)
+- [x] The endpoint should get information from the CSV by some field ***(example: ID)***
+- [x] The result should be displayed as a response
+- [x] ? Clean architecture proposal
+- [x] ? Use best practices
+- [x] Handle the Errors ***(CSV not valid, error connection, etc)***
 
 > Note: what’s listed in this deliverable is just for guidance and to help you distribute your workload; you can deliver more or fewer items if necessary. However, if you deliver fewer items at this point, you have to cover the remaining tasks in the next deliverable.
 
@@ -83,12 +83,12 @@ Based on the self-study material and mentorship covered until this deliverable, 
 
 Based on the self-study material and mentorship covered until this deliverable, we suggest you perform the following:
 
-- Create a client to consume an external API
-- Add an endpoint to consume the external API client
-- The information obtained should be stored in the CSV file
-- Add unit testing
-- Update the endpoint made in the first deliverable to display the result as a JSON
-- Refator if needed
+- [x] Create a client to consume an external API
+- [x] Add an endpoint to consume the external API client
+- [x] The information obtained should be stored in the CSV file
+- [ ] Add unit testing
+- [x] Update the endpoint made in the first deliverable to display the result as a JSON
+- [x] Refator if needed
 
 > Note: what’s listed in this deliverable is just for guidance and to help you distribute your workload; you can deliver more or fewer items if necessary. However, if you deliver fewer items at this point, you have to cover the remaining tasks in the next deliverable.
 

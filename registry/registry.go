@@ -20,5 +20,6 @@ func New(db database.DB) Registry {
 func (r *registry) NewAppController() controller.AppController {
 	return controller.AppController{
 		Pokemon: r.NewPokemonController(),
+		PokeAPI: r.NewPokeAPIController(),
 	}
 }

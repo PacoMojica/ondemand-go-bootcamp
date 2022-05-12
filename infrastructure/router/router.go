@@ -8,16 +8,30 @@ import (
 	"time"
 )
 
-func Init(c controller.AppController) (server *http.Server, address string) {
-	mux := &http.ServeMux{}
-	mux.HandleFunc("/pokemon", c.Pokemon.GetPokemon)
-	mux.HandleFunc("/pokemon/", c.Pokemon.GetPokemonById)
-	mux.HandleFunc("/create-pokemon", c.Pokemon.CreatePokemon)
+type appRouter struct {
+	mux        *http.ServeMux
+	controller controller.AppController
+}
 
-	handler := logHandler(mux)
+type AppRouter interface {
+	Init() (*http.Server, string)
+	handlePokemon()
+	handlePokeAPI()
+}
 
-	port := config.Config.Server.Port
-	host := config.Config.Server.Host
+func New(c controller.AppController) AppRouter {
+	m := &http.ServeMux{}
+	return &appRouter{m, c}
+}
+
+func (ar *appRouter) Init() (server *http.Server, address string) {
+	ar.handlePokemon()
+	ar.handlePokeAPI()
+
+	handler := logHandler(ar.mux)
+
+	port := config.App.Server.Port
+	host := config.App.Server.Host
 
 	address = fmt.Sprintf("%v:%v", host, port)
 	server = &http.Server{

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -48,4 +49,17 @@ func getPathID(paths []string, res http.ResponseWriter) (uint, bool) {
 	}
 
 	return uint(ID), true
+}
+
+func getPokemonIdentifier(paths []string, res http.ResponseWriter) (string, bool) {
+	isLowerLetters := regexp.MustCompile(`^[a-z]+$`).MatchString
+	value := paths[1]
+	_, intErr := strconv.ParseUint(value, 10, 0)
+
+	if !isLowerLetters(value) && intErr != nil {
+		writeError(fmt.Sprintf("invalid identifier: %v", value), res)
+		return "", false
+	}
+
+	return value, true
 }

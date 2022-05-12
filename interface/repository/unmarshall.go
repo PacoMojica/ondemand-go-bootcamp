@@ -42,12 +42,30 @@ func setStringSlice(field reflect.Value, values []string) {
 	field.Set(newSlice)
 }
 
+func packStructValues(value string, v any) []string {
+	values := strings.Split(value, "$")
+	s := reflect.ValueOf(v).Elem()
+	for i := 0; i < s.NumField(); i++ {
+		field := s.Field(i)
+		if field.Kind() == reflect.Struct {
+			end := i + field.NumField()
+			structValues := strings.Join(values[i:end], "$")
+			rest := values[end:]
+			values = append(values[0:i], structValues)
+			values = append(values, rest...)
+		}
+	}
+
+	return values
+}
+
 func setStructArray(field reflect.Value, structType reflect.Type, values []string) error {
 	newSlice := reflect.MakeSlice(field.Type(), 0, len(values))
 	for _, value := range values {
 		newStruct := reflect.New(structType).Elem()
-		structValues := strings.Split(value, "$")
-		unmarshall(structValues, newStruct.Addr().Interface())
+		v := newStruct.Addr().Interface()
+		structValues := packStructValues(value, v)
+		unmarshall(structValues, v)
 		newSlice = reflect.Append(newSlice, newStruct)
 	}
 	field.Set(newSlice)
