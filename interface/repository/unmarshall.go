@@ -47,14 +47,14 @@ func setStructArray(field reflect.Value, structType reflect.Type, values []strin
 	for _, value := range values {
 		newStruct := reflect.New(structType).Elem()
 		structValues := strings.Split(value, "$")
-		unmarshallRecord(structValues, newStruct.Addr().Interface())
+		unmarshall(structValues, newStruct.Addr().Interface())
 		newSlice = reflect.Append(newSlice, newStruct)
 	}
 	field.Set(newSlice)
 	return nil
 }
 
-func unmarshallRecord(record []string, v any) error {
+func unmarshall(record []string, v any) error {
 	s := reflect.ValueOf(v).Elem()
 	for i := 0; i < s.NumField(); i++ {
 		field := s.Field(i)
@@ -77,7 +77,7 @@ func unmarshallRecord(record []string, v any) error {
 			}
 		case reflect.Struct:
 			si := field.Addr().Interface()
-			unmarshallRecord(strings.Split(value, "$"), si)
+			unmarshall(strings.Split(value, "$"), si)
 		case reflect.Slice:
 			structType := s.Type().Field(i).Type.Elem()
 			kind := structType.Kind()
@@ -92,6 +92,7 @@ func unmarshallRecord(record []string, v any) error {
 			}
 		}
 	}
+
 	return nil
 
 }
