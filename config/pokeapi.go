@@ -2,21 +2,13 @@ package config
 
 import (
 	"fmt"
+	"go-bootcamp/usecase/clients"
 	"log"
 
 	"github.com/spf13/viper"
 )
 
-type pokeAPI struct {
-	BaseURL      string
-	TotalPokemon int
-	Endpoints    struct {
-		Pokemon string
-		Species string
-	}
-}
-
-var PokeAPI pokeAPI
+var PokeAPI clients.PokeAPIConfig
 
 func readPokeAPI() {
 	p := &PokeAPI

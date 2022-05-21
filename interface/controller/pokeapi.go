@@ -2,14 +2,13 @@ package controller
 
 import (
 	"fmt"
-	"go-bootcamp/config"
+	"go-bootcamp/usecase/clients"
 	"go-bootcamp/usecase/interactor"
-	"math/rand"
 	"net/http"
-	"time"
 )
 
 type pokeAPIController struct {
+	client            clients.PokeAPIClient
 	pokemonInteractor interactor.PokemonInteractor
 }
 
@@ -18,8 +17,8 @@ type PokeAPIController interface {
 	GetPokemonFromIdentifier(res http.ResponseWriter, req *http.Request)
 }
 
-func NewPokeAPIController(pi interactor.PokemonInteractor) PokeAPIController {
-	return &pokeAPIController{pi}
+func NewPokeAPIController(c clients.PokeAPIClient, pi interactor.PokemonInteractor) PokeAPIController {
+	return &pokeAPIController{c, pi}
 }
 
 func (pa *pokeAPIController) GetPokemon(res http.ResponseWriter, req *http.Request) {
@@ -27,15 +26,9 @@ func (pa *pokeAPIController) GetPokemon(res http.ResponseWriter, req *http.Reque
 		return
 	}
 
-	s := rand.NewSource(time.Now().UnixNano())
-	r := rand.New(s)
-
-	ID := (r.Intn(config.PokeAPI.TotalPokemon - 1)) + 1
-
-	endpoint := fmt.Sprintf("%v/%v", config.PokeAPI.Endpoints.Pokemon, ID)
-	apiRes, err := fetchPokeAPI(endpoint)
+	apiRes, err := pa.client.FetchRandomPokemon()
 	if err != nil {
-		writeError(fmt.Sprintf("could not fetch from the PokeAPI[%v]: %v", endpoint, err), res)
+		writeError(fmt.Sprintf("could not fetch random pokemon from the PokeAPI: %v", err), res)
 		return
 	}
 
@@ -63,10 +56,9 @@ func (pa *pokeAPIController) GetPokemonFromIdentifier(res http.ResponseWriter, r
 		return
 	}
 
-	endpoint := fmt.Sprintf("%v/%v", config.PokeAPI.Endpoints.Pokemon, identifier)
-	apiRes, err := fetchPokeAPI(endpoint)
+	apiRes, err := pa.client.FetchPokemon(identifier)
 	if err != nil {
-		writeError(fmt.Sprintf("could not fetch from the PokeAPI[%v]: %v", endpoint, err), res)
+		writeError(fmt.Sprintf("could not fetch from the PokeAPI[%v]: %v", identifier, err), res)
 		return
 	}
 

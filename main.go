@@ -10,11 +10,13 @@ import (
 
 func main() {
 	config.Read()
-	db := database.New()
-	re := registry.New(db)
+	db := database.New(config.App.Database.Path)
+	re := registry.New(db, config.PokeAPI)
 	c := re.NewAppController()
 	ro := router.New(c)
-	server, address := ro.Init()
+	server, address := ro.Init(
+		config.App.Server.Host,
+		config.App.Server.Port)
 
 	log.Printf("running server at %v", address)
 	if err := server.ListenAndServe(); err != nil {

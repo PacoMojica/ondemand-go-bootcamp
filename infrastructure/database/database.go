@@ -3,7 +3,6 @@ package database
 import (
 	"encoding/csv"
 	"fmt"
-	"go-bootcamp/config"
 	"os"
 )
 
@@ -17,8 +16,8 @@ type DB interface {
 	WriteAll([][]string) error
 }
 
-func New() DB {
-	return &database{path: config.App.Database.Path}
+func New(path string) DB {
+	return &database{path: path}
 }
 
 func (db *database) Read() ([][]string, error) {
