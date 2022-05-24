@@ -86,7 +86,7 @@ Based on the self-study material and mentorship covered until this deliverable, 
 - [x] Create a client to consume an external API
 - [x] Add an endpoint to consume the external API client
 - [x] The information obtained should be stored in the CSV file
-- [ ] Add unit testing
+- [x] ? Add unit testing
 - [x] Update the endpoint made in the first deliverable to display the result as a JSON
 - [x] Refator if needed
 

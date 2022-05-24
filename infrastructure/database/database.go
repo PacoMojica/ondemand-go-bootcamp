@@ -21,7 +21,7 @@ func New(path string) DB {
 }
 
 func (db *database) Read() ([][]string, error) {
-	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, os.ModeAppend)
+	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
 		return nil, fmt.Errorf("Opening file '%v' in DB: %w", db.path, err)
 	}
@@ -32,7 +32,7 @@ func (db *database) Read() ([][]string, error) {
 }
 
 func (db *database) Write(value []string) (err error) {
-	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, os.ModeAppend)
+	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
 		return
 	}
@@ -54,7 +54,7 @@ func (db *database) Write(value []string) (err error) {
 }
 
 func (db *database) WriteAll(value [][]string) (err error) {
-	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, os.ModeAppend)
+	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
 		return
 	}

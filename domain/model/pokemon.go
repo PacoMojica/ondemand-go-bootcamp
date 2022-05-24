@@ -13,26 +13,32 @@ type Species struct {
 	Habitat     string `json:"habitad"`
 }
 
+type AbilityInfo struct {
+	Name string `json:"name"`
+	URL  string `json:"url"`
+}
+
 type Ability struct {
-	Ability struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"ability"`
-	IsHidden bool `json:"is_hidden"`
+	Ability  AbilityInfo `json:"ability"`
+	IsHidden bool        `json:"is_hidden"`
+}
+
+type MoveInfo struct {
+	Name string `json:"name"`
+	URL  string `json:"url"`
 }
 
 type Move struct {
-	Move struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"move"`
+	Move MoveInfo `json:"move"`
+}
+
+type TypeInfo struct {
+	Name string `json:"name"`
+	URL  string `json:"url"`
 }
 
 type Type struct {
-	Type struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"type"`
+	Type TypeInfo `json:"type"`
 }
 
 type Pokemon struct {
