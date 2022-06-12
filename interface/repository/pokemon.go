@@ -75,3 +75,18 @@ func (pr *pokemonRepository) Create(p *model.Pokemon) error {
 
 	return nil
 }
+
+func (pr *pokemonRepository) FindAllConcurrently(
+	filter string, maxItems int, itemsPerWorker int,
+) ([]model.Pokemon, error) {
+	r, err := pr.db.ConcurrentRead(filter, maxItems, itemsPerWorker)
+	if err != nil {
+		return nil, err
+	}
+	ps, err := parsePokemon(r)
+	if err != nil {
+		return nil, err
+	}
+
+	return ps, nil
+}

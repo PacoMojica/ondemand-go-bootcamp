@@ -15,6 +15,7 @@ type PokemonInteractor interface {
 	GetAll() ([]byte, error)
 	GetById(uint) ([]byte, error)
 	Create(r io.Reader) ([]byte, error)
+	GetAllConcurrently(filter string, maxItems int, itemsPerWorker int) ([]byte, error)
 }
 
 func NewPokemonInteractor(r repository.PokemonRepository, p presenter.PokemonPresenter) PokemonInteractor {
@@ -71,6 +72,22 @@ func (pi *pokemonInteractor) Create(r io.Reader) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
+	}
+
+	data, err := pi.PokemonPresenter.Marshall(p)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (pi *pokemonInteractor) GetAllConcurrently(
+	filter string, maxItems int, itemsPerWorker int,
+) ([]byte, error) {
+	p, err := pi.PokemonRepository.FindAllConcurrently(filter, maxItems, itemsPerWorker)
+	if err != nil {
+		return nil, err
 	}
 
 	data, err := pi.PokemonPresenter.Marshall(p)

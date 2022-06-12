@@ -12,6 +12,8 @@ type database struct {
 
 type DB interface {
 	Read() ([][]string, error)
+	ConcurrentRead(
+		filter string, maxItems, itemsPerWorker int) ([][]string, error)
 	Write([]string) error
 	WriteAll([][]string) error
 }
@@ -23,7 +25,7 @@ func New(path string) DB {
 func (db *database) Read() ([][]string, error) {
 	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
-		return nil, fmt.Errorf("Opening file '%v' in DB: %w", db.path, err)
+		return nil, fmt.Errorf("opening file '%v' in db: %w", db.path, err)
 	}
 	defer f.Close()
 

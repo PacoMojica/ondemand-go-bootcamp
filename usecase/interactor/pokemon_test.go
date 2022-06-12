@@ -26,6 +26,10 @@ func (d *mockDB) Read() ([][]string, error) {
 	return d.data, nil
 }
 
+func (d *mockDB) ConcurrentRead(f string, m, i int) ([][]string, error) {
+	return d.data, nil
+}
+
 func (d *mockDB) Write(value []string) error {
 	d.data = append(d.data, value)
 	return nil
