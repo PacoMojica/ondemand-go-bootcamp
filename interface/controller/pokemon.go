@@ -1,14 +1,9 @@
 package controller
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
-	"strconv"
-	"strings"
 
-	"go-bootcamp/domain/model"
 	"go-bootcamp/usecase/interactor"
 )
 
@@ -17,140 +12,64 @@ type pokemonController struct {
 }
 
 type PokemonController interface {
-	GetPokemon(w http.ResponseWriter, req *http.Request)
-	GetPokemonById(w http.ResponseWriter, req *http.Request)
-	CreatePokemon(w http.ResponseWriter, req *http.Request)
+	GetPokemon(res http.ResponseWriter, req *http.Request)
+	GetPokemonById(res http.ResponseWriter, req *http.Request)
+	CreatePokemon(res http.ResponseWriter, req *http.Request)
 }
 
 func NewPokemonController(pi interactor.PokemonInteractor) PokemonController {
 	return &pokemonController{pi}
 }
 
-func (pc *pokemonController) GetPokemon(w http.ResponseWriter, req *http.Request) {
-	if req.Method != "GET" {
-		message := fmt.Sprintf("unsupported method [%v]", req.Method)
-		log.Println(message)
-		fmt.Fprint(w, message)
+func (pc *pokemonController) GetPokemon(res http.ResponseWriter, req *http.Request) {
+	if isValid := isMethodValid("GET", res, req); !isValid {
 		return
 	}
 
 	p, err := pc.interactor.GetAll()
 	if err != nil {
-		message := fmt.Sprintf("could not fetch all pokemon: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
+		writeError(fmt.Sprintf("could not fetch all pokemon: %v", err), res)
 		return
 	}
-	data, err := json.Marshal(p)
-	if err != nil {
-		message := fmt.Sprintf("unable to marshall response: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
-		w.WriteHeader(http.StatusInternalServerError)
-	}
 
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+	writeJSON(p, res)
 }
 
-func (pc *pokemonController) GetPokemonById(w http.ResponseWriter, req *http.Request) {
-	if req.Method != "GET" {
-		message := fmt.Sprintf("unsupported method [%v]", req.Method)
-		log.Println(message)
-		fmt.Fprint(w, message)
-		return
-	}
-	paths := strings.Split(req.URL.Path[1:], "/")
-
-	if len(paths) != 2 {
-		w.WriteHeader(http.StatusNotFound)
-		message := "404 page not found"
-		log.Println(message)
-		fmt.Fprint(w, message)
+func (pc *pokemonController) GetPokemonById(res http.ResponseWriter, req *http.Request) {
+	if ok := isMethodValid("GET", res, req); !ok {
 		return
 	}
 
-	ID, err := strconv.ParseUint(paths[1], 10, 64)
+	paths, ok := getPaths(res, req)
+	if !ok {
+		return
+	}
+
+	ID, ok := getPathID(paths, res)
+	if !ok {
+		return
+	}
+
+	p, err := pc.interactor.GetById(ID)
 	if err != nil {
-		message := fmt.Sprintf("invalid ID: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
+		res.WriteHeader(http.StatusInternalServerError)
+		writeError(fmt.Sprintf("could not fetch the pokemon with ID [%v] %v", ID, err), res)
 		return
 	}
 
-	p, err := pc.interactor.GetById(uint(ID))
-	if err != nil {
-		message := fmt.Sprintf("could not fetch all pokemon: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	if p.ID != uint(ID) {
-		data, err := json.Marshal(nil)
-		if err != nil {
-			message := fmt.Sprintf("unable to marshall response: %v", err)
-			log.Println(message)
-			fmt.Fprint(w, message)
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		w.Header().Add("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write(data)
-		return
-	}
-
-	data, err := json.Marshal(p)
-	if err != nil {
-		message := fmt.Sprintf("unable to marshall response: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+	writeJSON(p, res)
 }
 
-func (pc *pokemonController) CreatePokemon(w http.ResponseWriter, req *http.Request) {
-	if req.Method != "POST" {
-		message := fmt.Sprintf("unsupported method [%v]", req.Method)
-		log.Println(message)
-		fmt.Fprint(w, message)
+func (pc *pokemonController) CreatePokemon(res http.ResponseWriter, req *http.Request) {
+	if isValid := isMethodValid("POST", res, req); !isValid {
 		return
 	}
 
-	var p model.Pokemon
-	err := json.NewDecoder(req.Body).Decode(&p)
+	data, err := pc.interactor.Create(req.Body)
 	if err != nil {
-		message := fmt.Sprintf("unable to unmarshall body: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
+		writeError(fmt.Sprintf("unable to save pokemon data: %v", err), res)
 		return
 	}
 
-	err = pc.interactor.Create(&p)
-	if err != nil {
-		message := fmt.Sprintf("unable to save pokemon data: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
-		return
-	}
-
-	data, err := json.Marshal(p)
-	if err != nil {
-		message := fmt.Sprintf("unable to marshall response: %v", err)
-		log.Println(message)
-		fmt.Fprint(w, message)
-		return
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+	writeJSON(data, res)
 }

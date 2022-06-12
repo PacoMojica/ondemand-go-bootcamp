@@ -2,54 +2,32 @@ package router
 
 import (
 	"fmt"
-	"go-bootcamp/config"
 	"go-bootcamp/interface/controller"
-	"log"
 	"net/http"
 	"time"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
-type httpReqInfo struct {
-	method       string
-	uri          string
-	referer      string
-	userAgent    string
-	realIP       string
-	forwardedFor string
-	remoteAddr   string
+type appRouter struct {
+	mux        *http.ServeMux
+	controller controller.AppController
 }
 
-func logHandler(h http.Handler) http.Handler {
-	fn := func(w http.ResponseWriter, req *http.Request) {
-		ri := httpReqInfo{
-			method:       req.Method,
-			uri:          req.URL.String(),
-			referer:      req.Header.Get("Referer"),
-			userAgent:    req.Header.Get("User-Agent"),
-			realIP:       req.Header.Get("X-Real-Ip"),
-			forwardedFor: req.Header.Get("X-Forwarded-For"),
-			remoteAddr:   req.RemoteAddr,
-		}
-		log.Println(spew.Sprintf("%v", ri))
-
-		h.ServeHTTP(w, req)
-	}
-	return http.HandlerFunc(fn)
-
+type AppRouter interface {
+	Init(host, port string) (*http.Server, string)
+	handlePokemon()
+	handlePokeAPI()
 }
 
-func Init(c controller.AppController) (server *http.Server, address string) {
-	mux := &http.ServeMux{}
-	mux.HandleFunc("/pokemon", c.Pokemon.GetPokemon)
-	mux.HandleFunc("/pokemon/", c.Pokemon.GetPokemonById)
-	mux.HandleFunc("/create-pokemon", c.Pokemon.CreatePokemon)
+func New(c controller.AppController) AppRouter {
+	m := &http.ServeMux{}
+	return &appRouter{m, c}
+}
 
-	handler := logHandler(mux)
+func (ar *appRouter) Init(host, port string) (server *http.Server, address string) {
+	ar.handlePokemon()
+	ar.handlePokeAPI()
 
-	port := config.Config.Server.Port
-	host := config.Config.Server.Host
+	handler := logHandler(ar.mux)
 
 	address = fmt.Sprintf("%v:%v", host, port)
 	server = &http.Server{

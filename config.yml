@@ -1,5 +1,5 @@
 database:
-  file: db.csv
+  path: db.csv
 
 server:
   port: 8080
