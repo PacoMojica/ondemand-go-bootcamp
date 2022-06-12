@@ -25,7 +25,7 @@ func readApp() {
 	cfg := viper.New()
 	cfg.SetConfigName("config")
 	cfg.SetConfigType("yml")
-	cfg.AddConfigPath(".")
+	cfg.AddConfigPath("./config")
 	cfg.AutomaticEnv()
 
 	if err := cfg.ReadInConfig(); err != nil {

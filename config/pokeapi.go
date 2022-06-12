@@ -16,7 +16,7 @@ func readPokeAPI() {
 	pa := viper.New()
 	pa.SetConfigName("pokeapi")
 	pa.SetConfigType("yml")
-	pa.AddConfigPath(".")
+	pa.AddConfigPath("./config")
 	pa.AutomaticEnv()
 
 	if err := pa.ReadInConfig(); err != nil {
