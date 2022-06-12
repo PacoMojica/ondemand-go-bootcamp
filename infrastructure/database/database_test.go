@@ -3,11 +3,12 @@ package database_test
 import (
 	"bytes"
 	"flag"
-	"go-bootcamp/infrastructure/database"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"go-bootcamp/infrastructure/database"
 )
 
 var update = flag.Bool("update", false, "update golden files")

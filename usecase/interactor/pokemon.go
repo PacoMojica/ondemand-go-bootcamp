@@ -1,9 +1,10 @@
 package interactor
 
 import (
+	"io"
+
 	"go-bootcamp/usecase/presenter"
 	"go-bootcamp/usecase/repository"
-	"io"
 )
 
 type pokemonInteractor struct {

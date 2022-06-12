@@ -1,12 +1,13 @@
 package repository_test
 
 import (
-	"go-bootcamp/domain/model"
-	"go-bootcamp/infrastructure/database"
-	"go-bootcamp/interface/repository"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+
+	"go-bootcamp/domain/model"
+	"go-bootcamp/infrastructure/database"
+	"go-bootcamp/interface/repository"
 )
 
 type mockDB struct {

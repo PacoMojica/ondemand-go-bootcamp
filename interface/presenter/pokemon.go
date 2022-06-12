@@ -2,9 +2,10 @@ package presenter
 
 import (
 	"encoding/json"
+	"io"
+
 	"go-bootcamp/domain/model"
 	"go-bootcamp/usecase/presenter"
-	"io"
 )
 
 type pokemonPresenter struct{}

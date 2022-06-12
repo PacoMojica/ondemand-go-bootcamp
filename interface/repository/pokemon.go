@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+
 	"go-bootcamp/domain/model"
 	"go-bootcamp/infrastructure/database"
 	"go-bootcamp/usecase/repository"
@@ -21,7 +22,7 @@ func parsePokemon(r [][]string) ([]model.Pokemon, error) {
 		p := model.Pokemon{}
 
 		if err := unmarshall(record, &p); err != nil {
-			return nil, fmt.Errorf("Parsing pokemon data: %w", err)
+			return nil, fmt.Errorf("parsing pokemon data: %w", err)
 		}
 
 		ps = append(ps, p)

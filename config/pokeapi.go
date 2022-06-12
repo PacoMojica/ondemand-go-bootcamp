@@ -2,10 +2,11 @@ package config
 
 import (
 	"fmt"
-	"go-bootcamp/usecase/clients"
 	"log"
 
 	"github.com/spf13/viper"
+
+	"go-bootcamp/usecase/clients"
 )
 
 var PokeAPI clients.PokeAPIConfig

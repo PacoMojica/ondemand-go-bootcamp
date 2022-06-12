@@ -1,8 +1,9 @@
 package presenter
 
 import (
-	"go-bootcamp/domain/model"
 	"io"
+
+	"go-bootcamp/domain/model"
 )
 
 type PokemonPresenter interface {

@@ -3,13 +3,14 @@ package clients
 import (
 	"errors"
 	"fmt"
-	"go-bootcamp/config"
-	"go-bootcamp/usecase/clients"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"time"
+
+	"go-bootcamp/config"
+	"go-bootcamp/usecase/clients"
 )
 
 type pokeAPIClient struct {

@@ -3,13 +3,14 @@ package presenter_test
 import (
 	"bytes"
 	"flag"
-	"go-bootcamp/domain/model"
-	"go-bootcamp/interface/presenter"
 	"io/ioutil"
 	"path/filepath"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+
+	"go-bootcamp/domain/model"
+	"go-bootcamp/interface/presenter"
 )
 
 var update = flag.Bool("update", false, "update golden files")

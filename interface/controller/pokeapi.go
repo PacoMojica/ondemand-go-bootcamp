@@ -2,9 +2,10 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
+
 	"go-bootcamp/usecase/clients"
 	"go-bootcamp/usecase/interactor"
-	"net/http"
 )
 
 type pokeAPIController struct {
