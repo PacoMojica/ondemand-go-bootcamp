@@ -2,12 +2,14 @@ package config
 
 import (
 	"fmt"
-	"go-bootcamp/usecase/clients"
 	"log"
 
 	"github.com/spf13/viper"
+
+	"go-bootcamp/usecase/clients"
 )
 
+// config values required for the PokeAPI
 var PokeAPI clients.PokeAPIConfig
 
 func readPokeAPI() {
@@ -16,7 +18,7 @@ func readPokeAPI() {
 	pa := viper.New()
 	pa.SetConfigName("pokeapi")
 	pa.SetConfigType("yml")
-	pa.AddConfigPath(".")
+	pa.AddConfigPath("./config")
 	pa.AutomaticEnv()
 
 	if err := pa.ReadInConfig(); err != nil {

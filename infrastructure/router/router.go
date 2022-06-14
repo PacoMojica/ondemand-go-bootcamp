@@ -2,9 +2,10 @@ package router
 
 import (
 	"fmt"
-	"go-bootcamp/interface/controller"
 	"net/http"
 	"time"
+
+	"go-bootcamp/interface/controller"
 )
 
 type appRouter struct {
@@ -18,6 +19,7 @@ type AppRouter interface {
 	handlePokeAPI()
 }
 
+// New returns an AppRouter instance
 func New(c controller.AppController) AppRouter {
 	m := &http.ServeMux{}
 	return &appRouter{m, c}

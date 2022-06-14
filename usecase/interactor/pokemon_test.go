@@ -3,13 +3,14 @@ package interactor_test
 import (
 	"bytes"
 	"flag"
+	"io/ioutil"
+	"path/filepath"
+	"testing"
+
 	"go-bootcamp/infrastructure/database"
 	"go-bootcamp/interface/presenter"
 	"go-bootcamp/interface/repository"
 	"go-bootcamp/usecase/interactor"
-	"io/ioutil"
-	"path/filepath"
-	"testing"
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -23,6 +24,10 @@ func newDB(v [][]string) database.DB {
 }
 
 func (d *mockDB) Read() ([][]string, error) {
+	return d.data, nil
+}
+
+func (d *mockDB) ConcurrentRead(f string, m, i int) ([][]string, error) {
 	return d.data, nil
 }
 

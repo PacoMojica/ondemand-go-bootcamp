@@ -2,9 +2,10 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
+
 	"go-bootcamp/usecase/clients"
 	"go-bootcamp/usecase/interactor"
-	"net/http"
 )
 
 type pokeAPIController struct {
@@ -13,10 +14,13 @@ type pokeAPIController struct {
 }
 
 type PokeAPIController interface {
+	// Returns a random pokemon from the PokeAPI
 	GetPokemon(res http.ResponseWriter, req *http.Request)
+	// Returns the pokemon from the PokeAPI that matches the ID or null
 	GetPokemonFromIdentifier(res http.ResponseWriter, req *http.Request)
 }
 
+// Returns a new instance of the PokeAPI controller
 func NewPokeAPIController(c clients.PokeAPIClient, pi interactor.PokemonInteractor) PokeAPIController {
 	return &pokeAPIController{c, pi}
 }

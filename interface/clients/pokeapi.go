@@ -3,19 +3,21 @@ package clients
 import (
 	"errors"
 	"fmt"
-	"go-bootcamp/config"
-	"go-bootcamp/usecase/clients"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"time"
+
+	"go-bootcamp/config"
+	"go-bootcamp/usecase/clients"
 )
 
 type pokeAPIClient struct {
 	config clients.PokeAPIConfig
 }
 
+// Returns an intance of the PokeAPI client
 func NewPokeAPIClient(c clients.PokeAPIConfig) clients.PokeAPIClient {
 	return &pokeAPIClient{c}
 }

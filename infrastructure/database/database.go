@@ -11,11 +11,18 @@ type database struct {
 }
 
 type DB interface {
+	// Reads all the records in the CSV file
 	Read() ([][]string, error)
+	// Reads all the records in the CSV file concurrently
+	ConcurrentRead(
+		filter string, maxItems, itemsPerWorker int) ([][]string, error)
+	// Writes a single record to the CSV file
 	Write([]string) error
+	// Writes a multiple records to the CSV file
 	WriteAll([][]string) error
 }
 
+// New returns a database instance
 func New(path string) DB {
 	return &database{path: path}
 }
@@ -23,7 +30,7 @@ func New(path string) DB {
 func (db *database) Read() ([][]string, error) {
 	f, err := os.OpenFile(db.path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
-		return nil, fmt.Errorf("Opening file '%v' in DB: %w", db.path, err)
+		return nil, fmt.Errorf("opening file '%v' in db: %w", db.path, err)
 	}
 	defer f.Close()
 

@@ -1,12 +1,13 @@
 package repository_test
 
 import (
-	"go-bootcamp/domain/model"
-	"go-bootcamp/infrastructure/database"
-	"go-bootcamp/interface/repository"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+
+	"go-bootcamp/domain/model"
+	"go-bootcamp/infrastructure/database"
+	"go-bootcamp/interface/repository"
 )
 
 type mockDB struct {
@@ -18,6 +19,10 @@ func newDB(v [][]string) database.DB {
 }
 
 func (d *mockDB) Read() ([][]string, error) {
+	return d.data, nil
+}
+
+func (d *mockDB) ConcurrentRead(f string, m, i int) ([][]string, error) {
 	return d.data, nil
 }
 
