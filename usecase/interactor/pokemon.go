@@ -13,12 +13,17 @@ type pokemonInteractor struct {
 }
 
 type PokemonInteractor interface {
+	// Returns all the pokemon in the DB
 	GetAll() ([]byte, error)
+	// Returns the pokemon that matches the ID
 	GetById(uint) ([]byte, error)
+	// Creates a new pokemon
 	Create(r io.Reader) ([]byte, error)
+	// Reads the DB concurrently and returns all the pokemon
 	GetAllConcurrently(filter string, maxItems int, itemsPerWorker int) ([]byte, error)
 }
 
+// Returns a new instance of the pokemon interactor
 func NewPokemonInteractor(r repository.PokemonRepository, p presenter.PokemonPresenter) PokemonInteractor {
 	return &pokemonInteractor{r, p}
 }

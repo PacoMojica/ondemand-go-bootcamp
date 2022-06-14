@@ -11,13 +11,18 @@ type database struct {
 }
 
 type DB interface {
+	// Reads all the records in the CSV file
 	Read() ([][]string, error)
+	// Reads all the records in the CSV file concurrently
 	ConcurrentRead(
 		filter string, maxItems, itemsPerWorker int) ([][]string, error)
+	// Writes a single record to the CSV file
 	Write([]string) error
+	// Writes a multiple records to the CSV file
 	WriteAll([][]string) error
 }
 
+// New returns a database instance
 func New(path string) DB {
 	return &database{path: path}
 }

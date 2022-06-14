@@ -9,6 +9,7 @@ import (
 	"go-bootcamp/usecase/clients"
 )
 
+// config values required for the PokeAPI
 var PokeAPI clients.PokeAPIConfig
 
 func readPokeAPI() {

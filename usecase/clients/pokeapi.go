@@ -12,6 +12,8 @@ type PokeAPIConfig struct {
 }
 
 type PokeAPIClient interface {
+	// Fetches a pokemon using the provided ID form the PokeAPI
 	FetchPokemon(identifier any) (*http.Response, error)
+	// Fetches a random pokemon from the PokeAPI
 	FetchRandomPokemon() (*http.Response, error)
 }

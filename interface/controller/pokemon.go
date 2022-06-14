@@ -13,12 +13,17 @@ type pokemonController struct {
 }
 
 type PokemonController interface {
+	// Returns all pokemon stored in the DB
 	GetPokemon(res http.ResponseWriter, req *http.Request)
+	// Returns the pokemon that matches the ID or null
 	GetPokemonById(res http.ResponseWriter, req *http.Request)
+	// Creates a pokemon using the post data
 	CreatePokemon(res http.ResponseWriter, req *http.Request)
+	// Reads the database concurrently
 	ConcurrentPokemon(res http.ResponseWriter, req *http.Request)
 }
 
+// Returns an instance of the pokemon controller
 func NewPokemonController(pi interactor.PokemonInteractor) PokemonController {
 	return &pokemonController{pi}
 }
